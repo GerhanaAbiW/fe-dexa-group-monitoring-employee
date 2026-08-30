@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --color-brand: #b5221b;
+  --color-brand-dark: #8e1712;
+  --color-brand-soft: #fff0ee;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  button, input, select { font: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::selection { background: #f4c8c4; color: #6d1410; }
+}
+
+@layer utilities {
+  .surface { @apply rounded-2xl border border-[#e9e9ed] bg-white shadow-[0_8px_30px_rgba(28,29,33,.045)]; }
+  .field { @apply h-11 rounded-xl border border-[#dfe0e5] bg-white px-3.5 text-sm text-[#303137] outline-none transition focus:border-[#c53a33] focus:ring-4 focus:ring-[rgba(181,34,27,.08)]; }
+}

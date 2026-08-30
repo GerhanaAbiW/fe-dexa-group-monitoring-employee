@@ -1,0 +1,45 @@
+{
+  "name": "fe-dexa-group-monitoring-employee",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "npm run generate:api",
+    "dev": "vite",
+    "prebuild": "npm run generate:api",
+    "build": "tsc -b && vite build",
+    "generate:api": "orval --config ./orval.config.ts",
+    "generate:api:watch": "orval --config ./orval.config.ts --watch",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fast": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
+    "@tanstack/react-query": "^5.102.8",
+    "lucide-react": "^1.37.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-hook-form": "^7.86.0",
+    "react-router-dom": "^7.18.3",
+    "zod": "^4.5.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.5",
+    "globals": "^17.11.0",
+    "orval": "^7.13.2",
+    "oxlint": "^1.79.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.68.0",
+    "vite": "^8.2.2"
+  }
+}
