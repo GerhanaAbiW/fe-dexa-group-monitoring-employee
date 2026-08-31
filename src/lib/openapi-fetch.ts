@@ -4,15 +4,16 @@ import {
   getStatusErrorMessage,
   type ApiErrorBody,
 } from '../types/api'
+import { getStoredAccessToken } from '../features/auth/auth-session'
 
 interface OpenApiClientConfig {
+  attendanceApiUrl: string
   monitoringApiUrl: string
-  monitoringAdminApiKey: string
 }
 
 const clientConfig: OpenApiClientConfig = {
+  attendanceApiUrl: 'http://localhost:3001',
   monitoringApiUrl: 'http://localhost:3002',
-  monitoringAdminApiKey: '',
 }
 
 export const configureOpenApiClients = (config: OpenApiClientConfig): void => {
@@ -51,15 +52,14 @@ const request = async <T>(
   baseUrl: string,
   path: string,
   options: RequestInit = {},
+  authenticated = false,
 ): Promise<T> => {
   const headers = new Headers(options.headers)
   headers.set('Accept', 'application/json')
 
-  if (
-    clientConfig.monitoringAdminApiKey &&
-    !headers.has('x-admin-api-key')
-  ) {
-    headers.set('x-admin-api-key', clientConfig.monitoringAdminApiKey)
+  if (authenticated && !headers.has('Authorization')) {
+    const token = getStoredAccessToken()
+    if (token) headers.set('Authorization', `Bearer ${token}`)
   }
 
   let response: Response
@@ -80,4 +80,7 @@ const request = async <T>(
 }
 
 export const monitoringApiFetch = <T>(path: string, options?: RequestInit): Promise<T> =>
-  request<T>(clientConfig.monitoringApiUrl, path, options)
+  request<T>(clientConfig.monitoringApiUrl, path, options, true)
+
+export const attendanceApiFetch = <T>(path: string, options?: RequestInit): Promise<T> =>
+  request<T>(clientConfig.attendanceApiUrl, path, options)

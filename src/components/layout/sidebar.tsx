@@ -1,6 +1,7 @@
-import { CalendarDays, LayoutDashboard, ShieldCheck, UsersRound, X } from 'lucide-react'
+import { CalendarDays, LayoutDashboard, LogOut, ShieldCheck, UsersRound, X } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import dexaGroupImage from '../../assets/dexa-group.jpg'
+import { useAuth } from '../../features/auth/use-auth'
 
 interface SidebarProps {
   open: boolean
@@ -13,8 +14,16 @@ const navItems = [
   { to: '/attendance', label: 'Monitoring Absen', description: 'Riwayat read-only', icon: CalendarDays },
 ]
 
-export const Sidebar = ({ open, onClose }: SidebarProps) => (
-  <>
+export const Sidebar = ({ open, onClose }: SidebarProps) => {
+  const { logout } = useAuth()
+
+  const handleLogout = () => {
+    onClose()
+    logout()
+  }
+
+  return (
+    <>
     <button
       className={`${open ? 'fixed' : 'hidden'} inset-0 z-29 border-0 bg-black/35 backdrop-blur-[2px] md:hidden`}
       type="button"
@@ -47,9 +56,11 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => (
 
       <div className="mt-auto rounded-[14px] border border-[#f0dad7] bg-linear-to-br from-[#fff8f7] to-white p-4">
         <span className="flex items-center gap-2 text-xs font-extrabold text-[#a8241e]"><ShieldCheck size={16} /> Admin HRD</span>
-        <p className="mt-2 mb-0 text-[11px] leading-relaxed text-[#888a91]">Akses data karyawan dijaga menggunakan admin API key.</p>
+        <p className="mt-2 mb-0 text-[11px] leading-relaxed text-[#888a91]">Akses data karyawan dilindungi oleh sesi akun HRD.</p>
       </div>
+      <button className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[#ececef] bg-white px-4 text-xs font-bold text-[#6f7179] transition hover:border-[#f0d4d1] hover:bg-[#fff6f5] hover:text-brand" type="button" onClick={handleLogout}><LogOut size={17} /> Keluar dari akun</button>
       <p className="mt-4 mb-0 text-center text-[10px] font-semibold tracking-wide text-[#b0b1b7]">DEXA PEOPLE MONITOR v1.0</p>
     </aside>
-  </>
-)
+    </>
+  )
+}

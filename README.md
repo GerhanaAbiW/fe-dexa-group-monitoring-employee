@@ -13,6 +13,8 @@ Frontend React untuk use case nomor 2, **Aplikasi Monitoring Karyawan**. Aplikas
 - Notification center untuk perubahan data karyawan, termasuk polling dan penandaan sudah dibaca.
 - Tampilan responsif untuk desktop dan mobile.
 - Status koneksi Monitoring API.
+- Login HRD menggunakan email dan password yang diverifikasi ke Attendance API.
+- Logout serta proteksi route dashboard, karyawan, dan absensi.
 
 ## Teknologi
 
@@ -38,9 +40,16 @@ Copy-Item .env.example .env
 Isi konfigurasi sesuai backend:
 
 ```env
+VITE_ATTENDANCE_API_URL=http://localhost:3001
 VITE_MONITORING_API_URL=http://localhost:3002
-VITE_MONITORING_ADMIN_API_KEY=development-admin-key
 ```
+
+Monitoring App login melalui endpoint `/api/v1/auth/login` pada Attendance API.
+Token hasil login dikirim sebagai bearer token ke Monitoring API. Backend harus
+memastikan hanya akun dengan role/izin HRD yang dapat mengakses endpoint admin.
+
+Jika **Ingat saya** dipilih, sesi disimpan di `localStorage`. Jika tidak, sesi
+disimpan di `sessionStorage` dan berakhir saat tab browser ditutup.
 
 Kemudian jalankan:
 
@@ -48,7 +57,9 @@ Kemudian jalankan:
 npm run dev
 ```
 
-> Variabel `VITE_` masuk ke bundle browser. Untuk production, jangan menaruh API key rahasia pada frontend publik. Gunakan BFF atau API gateway yang mengautentikasi admin.
+> Monitoring App tidak lagi memerlukan `VITE_MONITORING_ADMIN_API_KEY`.
+> Untuk production, penyimpanan sesi melalui cookie `HttpOnly` oleh backend/BFF
+> lebih aman daripada menyimpan token pada browser storage.
 
 ## OpenAPI
 
@@ -86,6 +97,7 @@ src/
 │   └── ui/                      # Komponen UI reusable
 ├── features/
 │   ├── attendance/              # Monitoring absensi read-only
+│   ├── auth/                    # Login, sesi admin, dan logout
 │   ├── dashboard/               # Ringkasan admin
 │   └── employees/               # CRUD data karyawan
 ├── open-api/monitoring-employee # Source OpenAPI

@@ -6,8 +6,8 @@ import { configureOpenApiClients } from './lib/openapi-fetch'
 import './styles.css'
 
 configureOpenApiClients({
+  attendanceApiUrl: env.attendanceApiUrl,
   monitoringApiUrl: env.monitoringApiUrl,
-  monitoringAdminApiKey: env.monitoringAdminApiKey,
 })
 
 createRoot(document.getElementById('root')!).render(

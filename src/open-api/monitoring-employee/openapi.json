@@ -53,7 +53,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Tambah karyawan dan sinkronkan akun ke attendance service",
@@ -116,7 +116,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Daftar karyawan",
@@ -152,7 +152,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "tags": [
@@ -195,7 +195,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Update data atau reset password karyawan",
@@ -229,7 +229,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Nonaktifkan karyawan (soft delete)",
@@ -304,7 +304,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Lihat absensi seluruh karyawan (read-only)",
@@ -343,7 +343,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "tags": [
@@ -378,7 +378,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "tags": [
@@ -414,7 +414,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "summary": "Daftarkan FCM token browser admin",
@@ -443,7 +443,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "tags": [
@@ -462,7 +462,7 @@
         },
         "security": [
           {
-            "admin-api-key": []
+            "bearer": []
           }
         ],
         "tags": [
@@ -486,10 +486,10 @@
   ],
   "components": {
     "securitySchemes": {
-      "admin-api-key": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-admin-api-key"
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "schemas": {

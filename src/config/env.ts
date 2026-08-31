@@ -4,6 +4,6 @@ const readEnv = (key: keyof ImportMetaEnv, fallback = ''): string => {
 }
 
 export const env = {
+  attendanceApiUrl: readEnv('VITE_ATTENDANCE_API_URL', 'http://localhost:3001'),
   monitoringApiUrl: readEnv('VITE_MONITORING_API_URL', 'http://localhost:3002'),
-  monitoringAdminApiKey: readEnv('VITE_MONITORING_ADMIN_API_KEY'),
 } as const
