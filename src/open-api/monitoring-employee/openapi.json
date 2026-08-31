@@ -25,6 +25,38 @@
         ]
       }
     },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "AdminAuthController_execute",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLoginResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Login admin HRD dengan email dan password",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/api/v1/employees": {
       "post": {
         "operationId": "EmployeesController_create",
@@ -53,6 +85,9 @@
         },
         "security": [
           {
+            "admin-api-key": []
+          },
+          {
             "bearer": []
           }
         ],
@@ -77,9 +112,12 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 1,
-              "minimum": 1
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
             }
           },
           {
@@ -87,10 +125,13 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "integer",
               "maximum": 100,
               "default": 20,
-              "minimum": 1
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
             }
           },
           {
@@ -115,6 +156,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -151,6 +195,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -195,6 +242,9 @@
         },
         "security": [
           {
+            "admin-api-key": []
+          },
+          {
             "bearer": []
           }
         ],
@@ -228,6 +278,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -273,9 +326,12 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 1,
-              "minimum": 1
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
             }
           },
           {
@@ -283,10 +339,13 @@
             "required": false,
             "in": "query",
             "schema": {
-              "type": "integer",
               "maximum": 100,
               "default": 50,
-              "minimum": 1
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Object"
+                }
+              ]
             }
           }
         ],
@@ -303,6 +362,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -343,6 +405,9 @@
         },
         "security": [
           {
+            "admin-api-key": []
+          },
+          {
             "bearer": []
           }
         ],
@@ -377,6 +442,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -414,6 +482,9 @@
         },
         "security": [
           {
+            "admin-api-key": []
+          },
+          {
             "bearer": []
           }
         ],
@@ -443,6 +514,9 @@
         },
         "security": [
           {
+            "admin-api-key": []
+          },
+          {
             "bearer": []
           }
         ],
@@ -461,6 +535,9 @@
           }
         },
         "security": [
+          {
+            "admin-api-key": []
+          },
           {
             "bearer": []
           }
@@ -487,12 +564,100 @@
   "components": {
     "securitySchemes": {
       "bearer": {
-        "type": "http",
         "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "admin-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-admin-api-key"
       }
     },
     "schemas": {
+      "AdminLoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "hrd@dexagroup.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "HrdAdmin123!",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "AdminResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "example": "HRD"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "AdminLoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string",
+            "example": "Bearer"
+          },
+          "expiresIn": {
+            "type": "string",
+            "example": "8h"
+          },
+          "admin": {
+            "$ref": "#/components/schemas/AdminResponseDto"
+          }
+        },
+        "required": [
+          "accessToken",
+          "tokenType",
+          "expiresIn",
+          "admin"
+        ]
+      },
       "CreateEmployeeDto": {
         "type": "object",
         "properties": {
@@ -547,11 +712,11 @@
             "type": "string"
           },
           "phoneNumber": {
-            "type": "string",
+            "type": "object",
             "nullable": true
           },
           "photoUrl": {
-            "type": "string",
+            "type": "object",
             "format": "uri",
             "nullable": true
           },
@@ -771,7 +936,7 @@
             "format": "uuid"
           },
           "employeeId": {
-            "type": "string",
+            "type": "object",
             "format": "uuid",
             "nullable": true
           },
@@ -783,11 +948,10 @@
           },
           "data": {
             "type": "object",
-            "additionalProperties": true,
             "nullable": true
           },
           "readAt": {
-            "type": "string",
+            "type": "object",
             "format": "date-time",
             "nullable": true
           },
@@ -834,7 +998,7 @@
             "type": "string"
           },
           "label": {
-            "type": "string",
+            "type": "object",
             "nullable": true
           },
           "createdAt": {
